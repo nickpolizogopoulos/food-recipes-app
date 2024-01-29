@@ -39,8 +39,7 @@
             <label>Ingredients</label>
             <div class="row">
                 <div class="col-xs-12" formArrayName="ingredients">
-                    <div 
-                        style="margin-bottom: 10px;"
+                    <div style="margin-bottom: 10px;"
                         *ngFor="let ingredientControl of controls; let i = index"
                         class="row" [formGroupName]="i">
                         <div class="col-xs-8">
