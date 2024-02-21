@@ -5,11 +5,8 @@
             <p class="list-group-item-text">{{ recipe.description }}</p>
         </div>
         <span class="pull-right">
-            <img
-                [src]=" recipe.imagePath "
-                alt="{{ recipe.name }}"
-                class="img-responsive"
-                style="max-height: 80px;">
+            <img [src]=" recipe.imagePath "alt="{{ recipe.name }}"
+                class="img-responsive" style="max-width: 180px;">
         </span>
     </a>
 </div>
