@@ -21,6 +21,10 @@ export class AuthComponent {
     this.isLoginMode = !this.isLoginMode;
   }
 
+  onCloseAlert():void {
+    this.error = null;
+  }
+
   onSubmit( form:NgForm ) {
     if (!form.valid) return;
     const email = form.value.email;
