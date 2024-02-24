@@ -5,7 +5,7 @@
         <div *ngIf="error" class="alert alert-danger">
             <h4>An error occured!</h4>
             <p style="margin-bottom: 15px;">{{ error }}</p>
-            <button (click)="onCloseAlert()" class="btn btn-danger btn-sm">I understand</button>
+            <button (click)="onCloseAlert()" class="btn btn-danger btn-sm">close</button>
         </div>
         <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
         <form *ngIf="!isLoading" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
