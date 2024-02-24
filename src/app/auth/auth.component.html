@@ -11,20 +11,22 @@
         <form *ngIf="!isLoading" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" class="form-control" ngModel name="email" required email>
+                <input type="email" id="email" class="form-control" ngModel name="email" #email="ngModel" required email>
+                <div *ngIf="!email.valid && email.touched" class="form-text text-danger">Email is required.</div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" class="form-control" ngModel name="password" required minlength="6">
+                <input type="password" id="password" class="form-control" ngModel name="password" #password="ngModel" required minlength="6">
+                <div *ngIf="!password.valid && password.touched" class="form-text text-danger">Password is required.</div>
             </div>
             <div>
                 <button [ngClass]="{'btn-success' : !isLoginMode}" type="submit" class="btn btn-primary me-3" [disabled]="!authForm.valid">
                     {{ isLoginMode ? 'Login' : 'Sign Up' }}
                 </button>
 
-                <span>
+                <span class="select-none">
                     {{ isLoginMode ? 'Do you need an account?' : 'Already have an account?'}}
-                    <a  (click)="onSwitchMode()" class="auth-btn cursor-pointer">{{ isLoginMode ? 'Sign Up' : 'Login' }}</a>
+                    <a  (click)="onSwitchMode()" class="auth-btn cursor-pointer nodecor text-primary">{{ isLoginMode ? 'Sign Up' : 'Login' }}</a>
                 </span>
 
                 <!-- <span *ngIf="!isLoginMode" (click)="onSwitchMode()"> 
