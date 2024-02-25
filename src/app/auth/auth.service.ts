@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, throwError } from "rxjs";
+import { Observable, Subject, catchError, tap, throwError } from "rxjs";
+import { User } from "./user.model";
 
 export interface AuthResponseData {
     idToken:string;
@@ -16,6 +17,8 @@ export interface AuthResponseData {
 })
 export class AuthService {
 
+    user = new Subject <User> ()
+
     apiKey:string = ' AIzaSyAOt3HXBDAY2BV0e6rMWAR35NQJ25mfdTE ';
     signUpUrl:string = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + this.apiKey;
     signInUrl:string = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.apiKey;
@@ -28,23 +31,52 @@ export class AuthService {
         const payload = { email: email, password: password, returnSecureToken: true };
         return this.http
         .post <AuthResponseData>( this.signUpUrl, payload )
-        .pipe( catchError( this.handleError) )
+        .pipe(
+            catchError( this.handleError),
+            tap( responseData => {
+                this.handleAuthentication(
+                    responseData.email,
+                    responseData.localId,
+                    responseData.idToken,
+                    +responseData.expiresIn
+                )
+            })
+        )
     }
 
     login( email:string, password:string ): Observable<AuthResponseData> {
         const payload = { email: email, password: password, returnSecureToken: true };
         return this.http
         .post <AuthResponseData>( this.signInUrl, payload )
-        .pipe( catchError( this.handleError) )
+        .pipe(
+            catchError( this.handleError),
+            tap( responseData => {
+                this.handleAuthentication(
+                    responseData.email,
+                    responseData.localId,
+                    responseData.idToken,
+                    +responseData.expiresIn
+                )
+            })    
+        )
     }
 
-    private handleError( errorResponse:HttpErrorResponse ) {
+    private handleAuthentication( email:string, userId:string, token:string, expiresIn:number ) {
 
+        const expirationDate = new Date( new Date().getTime() + expiresIn * 1000 );        
+        const user = new User( email, userId, token, expirationDate );
+        this.user.next(user);
+    }
+
+    private handleError( errorResponse:HttpErrorResponse ):Observable<never> {
+
+        // console.log(errorResponse);
         let errorMessage = 'An unknown error occured!'
+
         if (!errorResponse.error || !errorResponse.error.error)
             return throwError(() => errorMessage)
     
-        const message = errorResponse.error.error.message;
+        const message:string = errorResponse.error.error.message;
         const manyAttempts:string = 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.';
     
         //signup
