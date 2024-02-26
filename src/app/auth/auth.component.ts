@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthResponseData, AuthService } from './auth.service';
 
@@ -12,7 +13,8 @@ export class AuthComponent {
 
   constructor(
     private authService:AuthService,
-  ) {}
+    private router:Router
+  ) { }
 
   isLoginMode:boolean = true;
   isLoading:boolean = false;
@@ -40,17 +42,18 @@ export class AuthComponent {
     else 
       authObservable = this.authService.signup(email, password)
     
-    authObservable.subscribe(
-      responseData => {
+    authObservable.subscribe({
+      next: responseData => {
         console.log(responseData);
         this.isLoading = false;
+        this.router.navigate(['/recipes'])
       },
-      errorMessage => {
+      error: errorMessage => {
         console.log(errorMessage);
         this.error = errorMessage;
         this.isLoading = false;
       }
-    );
+    });
 
     form.reset();
   }

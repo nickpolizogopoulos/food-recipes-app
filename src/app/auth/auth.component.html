@@ -28,14 +28,6 @@
                     {{ isLoginMode ? 'Do you need an account?' : 'Already have an account?'}}
                     <a  (click)="onSwitchMode()" class="auth-btn cursor-pointer nodecor text-primary">{{ isLoginMode ? 'Sign Up' : 'Login' }}</a>
                 </span>
-
-                <!-- <span *ngIf="!isLoginMode" (click)="onSwitchMode()"> 
-                    Already have an account? <a class="auth-btn">Sign In!</a>
-                </span> -->
-
-                <!-- <button type="button"  (click)="onSwitchMode()" class="btn btn-primary me-3">
-                    Switch to {{ isLoginMode ? 'Sign Up' : 'Login' }}
-                </button> -->
             </div>
             <div>
             </div>
