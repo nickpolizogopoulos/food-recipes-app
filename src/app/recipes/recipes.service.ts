@@ -26,7 +26,6 @@ export class RecipesService {
     //             new Ingredient('Mayonnaise', 1),
     //         ]
     //     ),
-
     //     new Recipe(
     //         'Greek Souvlaki',
     //         'Ten pieces of pork souvlaki.',
@@ -39,7 +38,6 @@ export class RecipesService {
     //             new Ingredient('Lemons', 2),
     //         ]
     //     ),
-
     //     new Recipe(
     //         'Club Sandwich',
     //         'Turkey or Ham club sandwich.',
@@ -50,6 +48,29 @@ export class RecipesService {
     //             new Ingredient('Lettuce', 1),
     //             new Ingredient('Mayonnaise', 1),
     //             new Ingredient('French Fries', 15),
+    //         ]
+    //     ),
+    //     new Recipe(
+    //         'Margherita Pizza',
+    //         'Margherita pizza - 8 slices.',
+    //         'https://www.5dollardinners.com/wp-content/uploads/2016/01/Chicken-Margherita-Pizza-from-5DollarDinners.jpg',
+    //         [
+    //             new Ingredient('Pizza dough', 1),
+    //             new Ingredient('Tomato sauce', 1),
+    //             new Ingredient('Sliced tomatoes', 2),
+    //             new Ingredient('Mozzarella', 1),
+    //         ]
+    //     ),
+    //     new Recipe(
+    //         'Chef's Salad',
+    //         'Classic Chef's Salad.',
+    //         'https://www.allrecipes.com/thmb/Q84xeMgnOJPZAUOdNyrb9dbFZr4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/285625-ChefsSalad_MFS_006-2550ecee70ae46dbaec530a58314c99c.jpg',
+    //         [
+    //             new Ingredient('Chicken', 2),
+    //             new Ingredient('Cheese', 1),
+    //             new Ingredient('Eggs', 5),
+    //             new Ingredient('Cucumber', 1),
+    //             new Ingredient('Mayonnaise', 1),
     //         ]
     //     ),
     // ];

@@ -22,42 +22,58 @@ export class DataStorageService {
     private authService:AuthService
   ) { }
 
-  storeRecipes():void {
+  // *Storing Recipes without interceptor
+  // storeRecipes() {
+  //   const recipes = this.recipesService.getRecipes()
+  //   return this.authService.user.pipe(
+  //     take(1),
+  //     exhaustMap( user => {
+  //       const params = new HttpParams().set('auth', user.token);
+  //       return this.http
+  //         .put( this.url, recipes, {params: params} )
+  //     })
+  //     ).subscribe()
+  // }
+
+  // *Fetching Recipes without interceptor
+  // fetchRecipes() {
+  //   return this.authService.user.pipe(
+  //     take(1),
+  //     exhaustMap( user => {
+  //       const params = new HttpParams().set('auth', user.token)
+  //       return this.http
+  //         .get <Recipe[]> (
+  //           this.url,
+  //           {params: params}
+  //         )
+  //     }),
+  //     map( recipes => {
+  //       return recipes.map(recipe => {
+  //         return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] };
+  //       })
+  //     }),
+  //     tap( recipes => this.recipesService.setRecipes(recipes) )
+  //   ) 
+  // }
+
+  storeRecipes() {
     const recipes = this.recipesService.getRecipes()
-    this.http
-      .put( this.url, recipes )
-      .subscribe(
-        response => console.log(response)
-      )
+    return this.http
+      .put( this.url, recipes, )
+      .subscribe()
   }
-
+  
   fetchRecipes() {
-
-    return this.authService.user.pipe(
-
-      take(1),
-
-      exhaustMap( user => {
-        const params = new HttpParams().set('auth', user.token)
-        return this.http
-          .get <Recipe[]> (
-            this.url,
-            {params}
-          )
-      }),
-      
-      map( recipes => {
-        return recipes.map(recipe => {
-          return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] };
-        })
-      }),
-
-      tap( recipes => 
-        this.recipesService.setRecipes(recipes)
+    return this.http
+      .get <Recipe[]> ( this.url )
+      .pipe(
+        map( recipes => {
+          return recipes.map(recipe => {
+            return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] };
+          })
+        }),
+        tap( recipes => this.recipesService.setRecipes(recipes) )
       )
-    )
-
-      
   }
 
 

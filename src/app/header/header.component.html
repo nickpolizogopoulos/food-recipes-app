@@ -18,7 +18,7 @@
                     </ul>
                 </li>
                 <li *ngIf="isAuthenticated">
-                    <a class="cursor-pointer">Logout</a>
+                    <a (click)="onLogout()" class="cursor-pointer">Logout</a>
                 </li>
             </ul>
         </div>
