@@ -7,7 +7,8 @@
             <p style="margin-bottom: 15px;">{{ error }}</p>
             <button (click)="onCloseAlert()" class="btn btn-danger btn-sm">close</button>
         </div> -->
-        <app-alert [message]="error" *ngIf="error" (close)="onHandleError()"></app-alert>
+        <!-- <app-alert *ngIf="error" (close)="onHandleError()" [message]="error"></app-alert> -->
+        <ng-template appPlaceholder></ng-template>
         <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
         <form *ngIf="!isLoading" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
             <div class="form-group">
