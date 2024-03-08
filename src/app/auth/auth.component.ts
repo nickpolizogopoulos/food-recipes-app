@@ -49,12 +49,11 @@ export class AuthComponent implements OnDestroy {
     
     authObservable.subscribe({
       next: responseData => {
-        console.log(responseData);
+        console.log('This login session will expire in: ' + +responseData.expiresIn/60 + ' minutes');
         this.isLoading = false;
         this.router.navigate(['/recipes'])
       },
       error: errorMessage => {
-        console.log(errorMessage);
         this.error = errorMessage;
         this.showErrorAlert(errorMessage);
         this.isLoading = false;

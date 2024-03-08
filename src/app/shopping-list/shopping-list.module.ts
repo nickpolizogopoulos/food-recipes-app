@@ -21,10 +21,6 @@ const route:Routes = [
         RouterModule.forChild(route),
         SharedModule,
     ],
-    exports: [
-        ShoppingListComponent,
-        ShoppingEditComponent
-    ]
 })
 export class ShoppingListModule {
 
