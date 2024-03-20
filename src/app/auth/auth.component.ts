@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ export class AuthComponent implements OnDestroy {
   constructor(
     private authService:AuthService,
     private router:Router,
-    private componentFactoryResolver:ComponentFactoryResolver
+    private viewContainerRef:ViewContainerRef,
   ) { }
 
   isLoginMode:boolean = true;
@@ -51,7 +51,7 @@ export class AuthComponent implements OnDestroy {
       next: responseData => {
         console.log('This login session will expire in: ' + +responseData.expiresIn/60 + ' minutes');
         this.isLoading = false;
-        this.router.navigate(['/recipes'])
+        this.router.navigate(['/recipes']);
       },
       error: errorMessage => {
         this.error = errorMessage;
@@ -68,15 +68,12 @@ export class AuthComponent implements OnDestroy {
   }
 
   private showErrorAlert( message:string ) {
-    const alertCmpFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
-    const hostViewContainerRef = this.alertHost.viewContainerRef;
-    hostViewContainerRef.clear();
-    const componentRef = hostViewContainerRef.createComponent(alertCmpFactory);
-    componentRef.instance.message = message;
-    this.closeAlertSub = componentRef.instance.close.subscribe(
-      () => {
+    const component = this.viewContainerRef.createComponent(AlertComponent);
+    component.instance.message = message;
+    this.closeAlertSub = component.instance.close
+      .subscribe(() => {
         this.closeAlertSub.unsubscribe();
-        hostViewContainerRef.clear();
+        this.viewContainerRef.clear();
       }
     );
   }
