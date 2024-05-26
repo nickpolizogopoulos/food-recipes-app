@@ -62,8 +62,8 @@ export class RecipesService {
     //         ]
     //     ),
     //     new Recipe(
-    //         'Chef's Salad',
-    //         'Classic Chef's Salad.',
+    //         'Chef Salad',
+    //         'Classic Chef Salad.',
     //         'https://www.allrecipes.com/thmb/Q84xeMgnOJPZAUOdNyrb9dbFZr4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/285625-ChefsSalad_MFS_006-2550ecee70ae46dbaec530a58314c99c.jpg',
     //         [
     //             new Ingredient('Chicken', 2),
