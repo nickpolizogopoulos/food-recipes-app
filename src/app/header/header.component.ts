@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private userSubscription:Subscription;
 
     constructor(
-        private dataStorageService:DataStorageService,
+        // private dataStorageService:DataStorageService,
         private authService:AuthService,
     ) { }
 
@@ -26,15 +26,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         )
     }
 
-    onSaveData():void {
-        this.dataStorageService.storeRecipes()
-    }
+    // onSaveData():void {
+    //     this.dataStorageService.storeRecipes()
+    // }
 
-    onFetchData():void {
-        this.dataStorageService
-            .fetchRecipes()
-            .subscribe()
-    }
+    // onFetchData():void {
+    //     this.dataStorageService
+    //         .fetchRecipes()
+    //         .subscribe()
+    // }
 
     onLogout():void {
         this.authService.logout()

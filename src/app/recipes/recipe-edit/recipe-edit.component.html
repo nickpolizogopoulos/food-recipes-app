@@ -2,10 +2,11 @@
     <div class="col-xs-12">
         <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
             <div style="margin-bottom: 14px;" class="row">
-                <div class="col-xs-12">
+                <!-- <div class="col-xs-12">
                     <button type="submit" class="btn btn-success me-3" [disabled]="!recipeForm.valid">Save</button>
                     <button type="button" class="btn btn-secondary me-3" (click)="onCancel()">Cancel</button>
-                </div>
+                </div> -->
+                <h2>{{getName()}} - [Edit]</h2>
             </div>
             <div class="row">
                 <div class="col-xs-12">
@@ -36,6 +37,12 @@
                     </div>
                 </div>
             </div>
+            <div style="margin-top: 14px;" class="row">
+                <div style="margin-bottom: 20px;" class="col-xs-12">
+                    <button (click)="onAddIngredient()" type="button" class="btn btn-success me-3">Add Ingredient</button>
+                    <button (click)="onClearAllIngredients()" type="button" class="btn btn-secondary me-3">Clear Ingredients</button>
+                </div>
+            </div>
             <label>Ingredients</label>
             <div class="row">
                 <div class="col-xs-12" formArrayName="ingredients">
@@ -53,10 +60,10 @@
                         </div>
                     </div>
                     <hr>
-                    <div style="margin-top: 17px;" class="row">
-                        <div style="margin-bottom: 20px;" class="col-xs-12">
-                            <button (click)="onAddIngredient()" type="button" class="btn btn-success me-3">Add Ingredient</button>
-                            <button (click)="onClearAllIngredients()" type="button" class="btn btn-secondary me-3">Clear Ingredients</button>
+                    <div style="margin-bottom: 100px;" class="row">
+                        <div class="col-xs-12">
+                            <button type="submit" class="btn btn-success me-3" [disabled]="!recipeForm.valid">Save</button>
+                            <button type="button" class="btn btn-secondary me-3" (click)="onCancel()">Cancel</button>
                         </div>
                     </div>
                 </div>
