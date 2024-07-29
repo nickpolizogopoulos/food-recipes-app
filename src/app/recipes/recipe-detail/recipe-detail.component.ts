@@ -3,6 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Recipe } from '../recipe.model';
 import { RecipesService } from '../recipes.service';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -17,6 +18,7 @@ export class RecipeDetailComponent implements OnInit {
     private recipeService: RecipesService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private dataStorageService:DataStorageService
   ) { }
 
   ngOnInit() {
@@ -33,12 +35,13 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onNewRecipe():void {
-    this.router.navigate(['edit'], {relativeTo: this.activatedRoute})
+    this.router.navigate(['edit'], {relativeTo: this.activatedRoute});
   }
 
   onDeleteRecipe():void {
-    this.recipeService.deleteRecipe(this.id)
-    this.router.navigate(['../'], {relativeTo: this.activatedRoute})
+    this.recipeService.deleteRecipe(this.id);
+    this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+    this.dataStorageService.storeRecipes();
   }
 
 }

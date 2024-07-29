@@ -51,7 +51,7 @@ export class RecipeEditComponent implements OnInit {
 
     this.router.navigate(['../'], {relativeTo: this.activatedRoute})
 
-    this.dataStorageService.storeRecipes()
+    this.dataStorageService.storeRecipes();
   }
 
   onAddIngredient():void {
