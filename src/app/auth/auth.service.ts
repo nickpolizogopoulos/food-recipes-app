@@ -2,24 +2,24 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Observable, catchError, tap, throwError } from "rxjs";
-import { environment } from "src/environments/environment.development";
 
+import { environment } from "src/environments/environment.development";
 import { User } from "./user.model";
 
 export interface AuthResponseData {
-    idToken:string;
-    email:string;
-    refreshToken:string;
-    expiresIn:string;
-    localId:string;
-    registered?:boolean;
+    idToken: string;
+    email: string;
+    refreshToken: string;
+    expiresIn: string;
+    localId: string;
+    registered?: boolean;
 }
 
 interface UserData {
-    email:string;
-    id:string;
-    _token:string;
-    _tokenExpirationDate:string;
+    email: string;
+    id: string;
+    _token: string;
+    _tokenExpirationDate: string;
 }
 
 
@@ -29,17 +29,17 @@ interface UserData {
 export class AuthService {
 
     user = new BehaviorSubject <User> (null);
-    apiKey:string = environment.firebaseAPIKey;
-    signUpUrl:string = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + this.apiKey;
-    signInUrl:string = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.apiKey;
-    private tokenExpirationTimer!:any;
+    apiKey: string = environment.firebaseAPIKey;
+    signUpUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.apiKey}`;
+    signInUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`;
+    private tokenExpirationTimer!: any;
 
     constructor(
-        private http:HttpClient,
-        private router:Router
+        private http: HttpClient,
+        private router: Router
     ) {}
 
-    signup( email:string, password:string ): Observable<AuthResponseData> {
+    signup( email: string, password: string ): Observable<AuthResponseData> {
         const payload = { email: email, password: password, returnSecureToken: true };
         return this.http
         .post <AuthResponseData>( this.signUpUrl, payload )
@@ -53,10 +53,10 @@ export class AuthService {
                     +responseData.expiresIn
                 )
             })
-        )
+        );
     }
 
-    login( email:string, password:string ): Observable<AuthResponseData> {
+    login( email: string, password: string ): Observable<AuthResponseData> {
         const payload = { email: email, password: password, returnSecureToken: true };
         return this.http
         .post <AuthResponseData>( this.signInUrl, payload )
@@ -70,18 +70,22 @@ export class AuthService {
                     +responseData.expiresIn
                 )
             })    
-        )
+        );
     }
 
-    autoLogin():void {
+    autoLogin(): void {
         const userData:UserData = JSON.parse(localStorage.getItem('userData'));
-        if (!userData) return;
+
+        if (!userData)
+            return;
+
         const loadedUser = new User(
             userData.email,
             userData.id,
             userData._token,
             new Date(userData._tokenExpirationDate)
         );
+
         if (loadedUser.token) {
             this.user.next(loadedUser);
             const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
@@ -89,24 +93,32 @@ export class AuthService {
         }
     }
 
-    logout():void {
+    logout(): void {
         this.user.next(null);
         this.router.navigate(['/auth']);
         localStorage.removeItem('userData');
+
         if (this.tokenExpirationTimer)
             clearTimeout(this.tokenExpirationTimer)
+
         this.tokenExpirationTimer = null;
     }
 
-    autoLogout( expirationDuration:number ):void {
+    autoLogout( expirationDuration: number ): void {
         // const sessionTimeLeft = new Date(expirationDuration / 1000 / 60).getTime()
         // console.log(`Time left for this login session: ${sessionTimeLeft} minutes` )
-        this.tokenExpirationTimer = setTimeout(() => {
-            this.logout();
-        }, expirationDuration);
+        this.tokenExpirationTimer = setTimeout(() =>
+            this.logout(),
+            expirationDuration
+        );
     }
 
-    private handleAuthentication( email:string, userId:string, token:string, expiresIn:number ) {
+    private handleAuthentication(
+        email: string,
+        userId: string,
+        token: string,
+        expiresIn: number
+    ): void {
         const expirationDate = new Date( new Date().getTime() + expiresIn * 1000 );        
         const user = new User( email, userId, token, expirationDate );
         this.user.next(user);
@@ -114,7 +126,7 @@ export class AuthService {
         localStorage.setItem('userData', JSON.stringify(user));
     }
 
-    private handleError( errorResponse:HttpErrorResponse ):Observable<never> {
+    private handleError( errorResponse: HttpErrorResponse ): Observable<never> {
 
         // console.log(errorResponse);
         let errorMessage = 'An unknown error occured!'
@@ -122,8 +134,8 @@ export class AuthService {
         if (!errorResponse.error || !errorResponse.error.error)
             return throwError(() => errorMessage)
     
-        const message:string = errorResponse.error.error.message;
-        const manyAttempts:string = 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.';
+        const message: string = errorResponse.error.error.message;
+        const manyAttempts: string = 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.';
     
         //signup
         if (message === 'EMAIL_EXISTS')
@@ -139,6 +151,6 @@ export class AuthService {
         if (message === 'USER_DISABLED')
             errorMessage = 'This user account has been disabled by an administrator.';
     
-        return throwError(() => errorMessage)
+        return throwError(() => errorMessage);
       }
 }

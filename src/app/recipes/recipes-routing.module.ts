@@ -32,7 +32,7 @@ const routes:Routes = [
                 path: ':id/edit',
                 component: RecipeEditComponent,
                 resolve: [RecipesResolverService]
-            },
+            }
         ]
     }
 ];
@@ -41,6 +41,4 @@ const routes:Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class RecipesRoutingModule {
-
-}
+export class RecipesRoutingModule {}

@@ -11,14 +11,11 @@ import { AuthService } from '../auth/auth.service';
 })
 export class DataStorageService {
 
-  databaseUrl:string = 'https://ng-course-food-application-default-rtdb.firebaseio.com';
-  databaseFolder:string = '/recipes';
-  json:string = '.json';
-  url:string = this.databaseUrl + this.databaseFolder + this.json;
+  private url: string = 'https://ng-course-food-application-default-rtdb.firebaseio.com/recipes.json';
 
   constructor(
-    private http:HttpClient,
-    private recipesService:RecipesService,
+    private http: HttpClient,
+    private recipesService: RecipesService,
     // private authService:AuthService
   ) { }
 
@@ -57,10 +54,10 @@ export class DataStorageService {
   // }
 
   storeRecipes() {
-    const recipes = this.recipesService.getRecipes()
+    const recipes = this.recipesService.getRecipes();
     return this.http
-      .put( this.url, recipes, )
-      .subscribe()
+      .put( this.url, recipes )
+      .subscribe();
   }
   
   fetchRecipes() {
@@ -73,7 +70,7 @@ export class DataStorageService {
           })
         }),
         tap( recipes => this.recipesService.setRecipes(recipes) )
-      )
+      );
   }
 
 

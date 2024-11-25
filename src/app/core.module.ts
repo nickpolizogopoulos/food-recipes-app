@@ -9,9 +9,7 @@ import { AuthInterceptorService } from "./auth/auth-interceptor.service";
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptorService,
             multi: true
-        },
-    ],
+        }
+    ]
 })
-export class CoreModule {
-
-}
+export class CoreModule {}

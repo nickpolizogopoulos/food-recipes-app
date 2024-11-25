@@ -8,9 +8,10 @@ import { DataStorageService } from 'src/app/shared/data-storage.service';
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
-  styleUrls: ['./recipe-detail.component.css']
+  styleUrls: ['./recipe-detail.component.scss']
 })
 export class RecipeDetailComponent implements OnInit {
+
   recipe: Recipe;
   id: number;
 
@@ -18,27 +19,27 @@ export class RecipeDetailComponent implements OnInit {
     private recipeService: RecipesService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private dataStorageService:DataStorageService
-  ) { }
+    private dataStorageService: DataStorageService
+  ) {}
 
-  ngOnInit() {
-    this.activatedRoute.params.subscribe(
-      (params:Params) => {
-        this.id = +params['id']
-        this.recipe = this.recipeService.getRecipe(this.id)
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe({
+      next: (params: Params) => {
+        this.id = +params['id'];
+        this.recipe = this.recipeService.getRecipe(this.id);
       }
-    )
+    });
   }
 
-  onAddToShoppingList():void {
+  onAddToShoppingList(): void {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
   }
 
-  onNewRecipe():void {
+  onNewRecipe(): void {
     this.router.navigate(['edit'], {relativeTo: this.activatedRoute});
   }
 
-  onDeleteRecipe():void {
+  onDeleteRecipe(): void {
     this.recipeService.deleteRecipe(this.id);
     this.router.navigate(['../'], {relativeTo: this.activatedRoute});
     this.dataStorageService.storeRecipes();

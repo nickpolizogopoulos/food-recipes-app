@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { AlertComponent } from "./alert/alert.component";
-import { LoadingSpinnerComponent } from "./loading-spinner/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "./loading-spinner/loading-spinner.component";
 import { PlaceholderDirective } from "./placeholder.directive";
 import { DropdownDirective } from "./dropdown.directive";
 
@@ -24,6 +24,4 @@ import { DropdownDirective } from "./dropdown.directive";
         CommonModule
     ]
 })
-export class SharedModule {
-
-}
+export class SharedModule {}

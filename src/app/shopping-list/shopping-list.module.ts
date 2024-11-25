@@ -7,8 +7,12 @@ import { ShoppingListComponent } from "./shopping-list.component";
 import { AuthGuard } from "../auth/auth.guard";
 import { SharedModule } from "../shared/shared.module";
 
-const route:Routes = [
-    {path: '', component: ShoppingListComponent, canActivate: [AuthGuard],},
+const route: Routes = [
+    {
+        path: '',
+        component: ShoppingListComponent,
+        canActivate: [AuthGuard]
+    }
 ];
 
 @NgModule({
@@ -19,9 +23,7 @@ const route:Routes = [
     imports: [
         FormsModule,
         RouterModule.forChild(route),
-        SharedModule,
-    ],
+        SharedModule
+    ]
 })
-export class ShoppingListModule {
-
-}
+export class ShoppingListModule {}

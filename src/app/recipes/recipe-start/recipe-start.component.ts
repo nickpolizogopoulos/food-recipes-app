@@ -27,9 +27,6 @@ import { Component } from '@angular/core';
       </li>
     </ul>
   
-  `,
-  styles: [``]
+  `
 })
-export class RecipeStartComponent {
-
-}
+export class RecipeStartComponent {}

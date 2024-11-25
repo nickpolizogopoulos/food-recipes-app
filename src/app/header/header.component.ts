@@ -6,24 +6,52 @@ import { AuthService } from "../auth/auth.service";
 
 @Component({
     selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.css']
+    template: `
+    
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a routerLink="" class="navbar-brand">Recipe Book</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li *ngIf="isAuthenticated" routerLinkActive="active"><a routerLink="/recipes">Recipes</a></li>
+                        <li *ngIf="!isAuthenticated" routerLinkActive="active"><a routerLink="/auth">Login</a></li>
+                        <li *ngIf="isAuthenticated" routerLinkActive="active"><a routerLink="/shopping-list">Shopping List</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- <li *ngIf="isAuthenticated" appDropdown class="dropdown">
+                        <a class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
+                        <ul class="dropdown-menu cursor-pointer">
+                        <li><a (click)="onSaveData()">Save Data</a></li>
+                        <li><a (click)="onFetchData()">Fetch Data</a></li>
+                        </ul>
+                        </li> -->
+                        <li *ngIf="isAuthenticated">
+                            <a (click)="onLogout()" class="cursor-pointer">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    
+    `
 })
-
 export class HeaderComponent implements OnInit, OnDestroy {
 
-    isAuthenticated:boolean = false;
-    private userSubscription:Subscription;
+    isAuthenticated: boolean = false;
+    private userSubscription: Subscription;
 
     constructor(
         // private dataStorageService:DataStorageService,
         private authService:AuthService,
     ) { }
 
-    ngOnInit():void {
-        this.userSubscription = this.authService.user.subscribe(
-            user => this.isAuthenticated = !!user,
-        )
+    ngOnInit(): void {
+        this.userSubscription = this.authService.user
+            .subscribe({
+                next: user => this.isAuthenticated = !!user
+            });
     }
 
     // onSaveData():void {
@@ -36,12 +64,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //         .subscribe()
     // }
 
-    onLogout():void {
-        this.authService.logout()
+    onLogout(): void {
+        this.authService.logout();
     }
 
-    ngOnDestroy():void {
-        this.userSubscription.unsubscribe()
+    ngOnDestroy(): void {
+        this.userSubscription.unsubscribe();
     }
     
 }
